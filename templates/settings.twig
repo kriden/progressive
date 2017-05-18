@@ -1,0 +1,116 @@
+{% import "_includes/forms" as forms %}
+
+{% set fullPageForm = true %}
+{% set hasCustomLayout = true %}
+
+{% set crumbs = [
+    { label: "Progressive", url: url('progressive/welcome') },
+    { label: "Settings"|t, url: url('progressive/settings') },
+] %}
+
+{% set title = "Settings" %}
+
+{% extends "_layouts/cp" %}
+{% import '_includes/forms' as forms %}
+
+{% set content %}
+
+<form method="post" action="" accept-charset="UTF-8">
+        <input type="hidden" name="action" value="progressive/saveSettings" />
+        <!-- <input type="hidden" name="redirect" value="progressive/settings" /> -->
+        
+	{{ 	
+		forms.textField({
+	    label: "Short name"|t,
+	    name: 'short_name',
+	    value: settings.short_name
+		})
+	}}
+
+	{{ 	
+		forms.textField({
+	    label: "Full name"|t,
+	    name: 'name',
+	    value: settings.name
+		})
+	}}
+
+	<div class="field" id="icon-field">
+	    <div class="heading">
+	        <label for="iconField">{{ "Icon"|t}}{% if craft.isLocalized and locale %}<span class="locale">{{ locale }}</span>{% endif %}</label>
+	        <div class="instructions"><p>{{ "This is the image that will be used for display on mobile devices after being added as an app. The image must be in JPG, PNG, or GIF format." |t |raw}}</p></div>
+	    </div>
+		{% if assetsSourceExists %}
+	        {{ 
+	        	forms.elementSelect({
+		            elements: elements,
+		            id: 'iconImageId',
+		            name: 'icomImageId',
+		            elementType: elementType,
+		            criteria: {
+		                'kind': ['image'],
+		                'localeEnabled': null,
+		                'locale': craft.locale,
+		            },
+		            sourceElementId: iconImageId,
+		            jsClass: 'Craft.AssetSelectInput',
+		            addButtonLabel: "Select SEO Image" |t,
+		            limit: 1,
+		            locale: locale,
+		        }) 
+		    }}
+	    {% else %}
+	        <p class="error">No assets sources currently exist. <a href="{{ newAssetsSourceUrl }}">Create one now...</a></p>
+	    {% endif %}
+	</div>
+
+
+	{{ 	
+		forms.textField({
+		    label: "Start Url"|t,
+		    name: 'start_url',
+		    instructions: "Optional. If left blank, the current page will be used by default.",
+		    value: settings.start_url
+		})
+	}}
+
+	{{ 	
+		forms.textField({
+		    label: "Background Color"|t,
+		    name: 'background_color',
+		    instructions: "Chrome uses this color the instant the web app is launched and the color remains on the screen until the web app's first render.",
+		    value: settings.background_color
+		})
+	}}
+
+	{{ 	
+		forms.textField({
+		    label: "Theme Color"|t,
+		    name: 'theme_color',
+		    instructions: "This property sets the color of the toolbar.",
+		    value: settings.theme_color
+		})
+	}}
+
+	{{ 
+		forms.selectField({
+            label: "Orientation"|t,
+            instructions: "You can enforce a specific orientation, which is advantageous for apps that work in only one orientation, such as games for example. Use this selectively. Users prefer selecting the orientation."|t,
+            id: "orientation",
+            options: {
+                "": "",
+                "landscape": "Landscape" |t,
+                "portrait": "Portrait" |t
+            },
+            name: "orientation",
+            value: settings.orientation,
+            locale: locale,
+        }) 
+    }}
+
+            <div class="buttons">
+            <input type="submit" class="btn submit" value="{{ 'Save'|t }}">
+        </div>
+
+</form>
+{% endset %}
