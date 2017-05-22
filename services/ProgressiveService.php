@@ -64,7 +64,7 @@ class ProgressiveService extends BaseApplicationComponent {
 			'background_color' => $settings->background_color,
 			'theme_color' => $settings->theme_color,
 			'start_url' => $settings->start_url,
-			'display' => "fullscreen",
+			'display' => $settings->display,
 			'icons' => $this->getIconSettings($settings)
 		);
 
@@ -83,20 +83,22 @@ class ProgressiveService extends BaseApplicationComponent {
 		if($iconImageId !== ""){
 			foreach($sizes as $size) {
 				$image = craft()->elements->getElementById($iconImageId);
-				$image->setTransform(array(
-						"width" => $size,
-						"height" => $size,
-						"mode" => "fit",
-						"quality" => 75,
-						"format" => "png"
-					)
-				);
+				if($image !== null) {
+					$image->setTransform(array(
+							"width" => $size,
+							"height" => $size,
+							"mode" => "fit",
+							"quality" => 75,
+							"format" => "png"
+						)
+					);
 
-				 $icons[] = array(
-					"src" => $image->getUrl(),
-					"size" => $image->getWidth()."x".$image->getHeight(),
-					"type" => "image/png",
-				);
+					 $icons[] = array(
+						"src" => $image->getUrl(),
+						"size" => $image->getWidth()."x".$image->getHeight(),
+						"type" => "image/png",
+					);
+				}
 			}
 		}
 		return $icons;

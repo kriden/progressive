@@ -107,6 +107,21 @@
         }) 
     }}
 
+    {{ 
+		forms.selectField({
+            label: "Display mode"|t,
+            instructions: "You make your web app hide the browser's UI by setting the display type to standalone. If you think users would prefer to view your page as a normal site in a browser, you can set the display type to browser."|t,
+            id: "display",
+            options: {
+                "standalone": "Standalone" |t,
+                "browser": "Browser" |t
+            },
+            name: "display",
+            value: settings.display,
+            locale: locale,
+        }) 
+    }}
+
     {{ 	
 		forms.textField({
 		    label: "Cached files"|t,
