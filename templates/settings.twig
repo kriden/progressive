@@ -37,7 +37,7 @@
 
 	<div class="field" id="icon-field">
 	    <div class="heading">
-	        <label for="iconField">{{ "Icon"|t}}{% if craft.isLocalized and locale %}<span class="locale">{{ locale }}</span>{% endif %}</label>
+	        <label for="iconField">{{ "Icon (square, >=192px)"|t}}{% if craft.isLocalized and locale %}<span class="locale">{{ locale }}</span>{% endif %}</label>
 	        <div class="instructions"><p>{{ "This is the image that will be used for display on mobile devices after being added as an app. The image must be in JPG, PNG, or GIF format." |t |raw}}</p></div>
 	    </div>
 		{% if assetsSourceExists %}
@@ -45,7 +45,7 @@
 	        	forms.elementSelect({
 		            elements: elements,
 		            id: 'iconImageId',
-		            name: 'icomImageId',
+		            name: 'iconImageId',
 		            elementType: elementType,
 		            criteria: {
 		                'kind': ['image'],
@@ -63,7 +63,6 @@
 	        <p class="error">No assets sources currently exist. <a href="{{ newAssetsSourceUrl }}">Create one now...</a></p>
 	    {% endif %}
 	</div>
-
 
 	{{ 	
 		forms.textField({
@@ -107,6 +106,15 @@
             locale: locale,
         }) 
     }}
+
+    {{ 	
+		forms.textField({
+		    label: "Cached files"|t,
+		    name: 'cached_files',
+		    instructions: "Comma seperated list containing all resources (css/js) that you want to cache offline with the service worker.",
+		    value: settings.cached_files
+		})
+	}}
 
             <div class="buttons">
             <input type="submit" class="btn submit" value="{{ 'Save'|t }}">

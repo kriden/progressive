@@ -63,6 +63,7 @@ class ProgressivePlugin extends BasePlugin
     {
         return array(
             'manifest.json' => array('action' => 'progressive/renderManifest'),
+            'serviceworker.js' => array('action' => 'progressive/renderServiceWorker'),
         );
     }
 
@@ -91,7 +92,6 @@ class ProgressivePlugin extends BasePlugin
 
     public function onAfterInstall()
     {
-
         /* -- Show our "Welcome to SEOmatic" message */
         if (!craft()->isConsole())
             craft()->request->redirect(UrlHelper::getCpUrl('progressive/welcome'));

@@ -63,7 +63,9 @@ class ProgressiveService extends BaseApplicationComponent {
 			'name' => $settings->name,
 			'background_color' => $settings->background_color,
 			'theme_color' => $settings->theme_color,
-			'start_url' => $settings->start_url
+			'start_url' => $settings->start_url,
+			'display' => "fullscreen",
+			'icons' => $this->getIconSettings($settings)
 		);
 
 		if($settings->orientation !== '') {
@@ -71,6 +73,33 @@ class ProgressiveService extends BaseApplicationComponent {
 		}
 
 		return json_encode($manifest);
+	}
+
+	private function getIconSettings(Progressive_SettingsModel $settings) {
+		$iconImageId = $settings->iconImageId;
+		$sizes = array(128, 144, 152, 192, 512);
+
+		$icons = array();
+		if($iconImageId !== ""){
+			foreach($sizes as $size) {
+				$image = craft()->elements->getElementById($iconImageId);
+				$image->setTransform(array(
+						"width" => $size,
+						"height" => $size,
+						"mode" => "fit",
+						"quality" => 75,
+						"format" => "png"
+					)
+				);
+
+				 $icons[] = array(
+					"src" => $image->getUrl(),
+					"size" => $image->getWidth()."x".$image->getHeight(),
+					"type" => "image/png",
+				);
+			}
+		}
+		return $icons;
 	}
 }
 ?>

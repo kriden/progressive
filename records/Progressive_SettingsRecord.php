@@ -19,14 +19,15 @@ class Progressive_SettingsRecord extends BaseRecord
             'name'  			        => array(AttributeType::String, 'default' => ''),
             'background_color'          => array(AttributeType::String, 'default' => ''),
             'theme_color'               => array(AttributeType::String, 'default' => ''),
-            'orientation'               => array(AttributeType::String, 'default' => '')
+            'orientation'               => array(AttributeType::String, 'default' => ''),
+            'cached_files'              => array(AttributeType::String, 'default' => '')
         );
     }
 
     public function defineRelations()
     {
         return array(
-            'iconImage' => array(static::BELONGS_TO, 'AssetFileRecord'), /* -- "Id" is automatically appended */
+            'iconImage' => array(static::BELONGS_TO, 'AssetFileRecord')
         );
     }
 

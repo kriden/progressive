@@ -6,7 +6,7 @@ class ProgressiveController extends BaseController {
 
     private static $PLUGIN_NAME = "progressive";
 
-    protected $allowAnonymous = array('actionRenderManifest');
+    protected $allowAnonymous = array('actionRenderManifest', 'actionRenderServiceWorker');
 
     /**
      * Welcome action - displayed when plugin is first installed.
@@ -24,8 +24,8 @@ class ProgressiveController extends BaseController {
 
         $variables = array(
             'settings' => $settings,
-            'elements' => array(),
-            'iconImageId' => '',
+            'elements' => array(craft()->elements->getElementById($model->iconImageId)),
+            'iconImageId' => $model->iconImageId,
             'elementType' => craft()->elements->getElementType(ElementType::Asset),
             'locale' => $locale
         );
@@ -43,6 +43,9 @@ class ProgressiveController extends BaseController {
         $model = craft()->progressive->getSettings();
         $model->setAttributes(craft()->request->getPost());
 
+        $iconImage = craft()->request->getPost('iconImageId');
+        if(is_array($iconImage)) $model->setAttribute("iconImageId", $iconImage[0]);
+    
         if (craft()->progressive->saveSettings($model)) {
             craft()->userSession->setNotice(Craft::t('Settings saved.'));
         }
@@ -57,6 +60,26 @@ class ProgressiveController extends BaseController {
 
         craft()->templates->setTemplatesPath($newPath);
         $this->renderTemplate('manifest', array());
+        craft()->templates->setTemplatesPath($oldPath);
+    } /* -- renderManifest */
+
+
+    /**
+    *   Render Service Worker action - used to build service worker javascript file.
+    */
+    public function actionRenderServiceWorker() {
+        $settings = craft()->progressive->getSettings();
+
+        $oldPath = craft()->templates->getTemplatesPath();
+        $newPath = craft()->path->getPluginsPath().'progressive/templates';
+
+        $vars = array(
+            'cacheName' => str_replace(' ','-', strtolower($settings->short_name)),
+            'offlineCache' => json_encode(array_merge(split(",", $settings->cached_files), array("/", $settings->start_url)))
+        );
+
+        craft()->templates->setTemplatesPath($newPath);
+        $this->renderTemplate('serviceworker', $vars);
         craft()->templates->setTemplatesPath($oldPath);
     } /* -- renderManifest */
 
