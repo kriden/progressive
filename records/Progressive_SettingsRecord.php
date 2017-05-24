@@ -4,6 +4,10 @@ namespace Craft;
 class Progressive_SettingsRecord extends BaseRecord
 {
 
+    /**
+     * Fetches table name
+     * @return string
+     */
     public function getTableName()
     {
         return 'progressive_settings';
@@ -25,6 +29,10 @@ class Progressive_SettingsRecord extends BaseRecord
         );
     }
 
+    /**
+     * Defines relationships with other tables
+     * @return array
+     */
     public function defineRelations()
     {
         return array(
@@ -32,8 +40,10 @@ class Progressive_SettingsRecord extends BaseRecord
         );
     }
 
-    
-
+    /**
+     * Creates a new instance of this record.
+     * @return Progressive_SettingsRecord
+     */
     public function create()
     {
         $class = get_class($this);

@@ -5,7 +5,6 @@ namespace Craft;
 class Progressive_SettingsModel extends BaseModel
 {
     /**
-     * @access protected
      * @return array
      */
     protected function defineAttributes() {

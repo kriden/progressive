@@ -9,7 +9,8 @@ class ProgressiveController extends BaseController {
     protected $allowAnonymous = array('actionRenderManifest', 'actionRenderServiceWorker');
 
     /**
-     * Welcome action - displayed when plugin is first installed.
+     * Renders the welcome template
+     * @return void
      */
     public function actionWelcome()
     {
@@ -17,6 +18,10 @@ class ProgressiveController extends BaseController {
     } /* -- actionWelcome */
 
 
+    /**
+     * Renders the setting page
+     * @return void
+     */
     public function actionSettings() {
         $locale = craft()->language;
         $model = craft()->progressive->getSettings();
@@ -37,6 +42,10 @@ class ProgressiveController extends BaseController {
         $this->renderTemplate('progressive/settings', $variables);
     } /* -- actionSettings */
 
+    /**
+     * Saves plugin settings
+     * @return void
+     */
     public function actionSaveSettings() {
         $this->requirePostRequest();
 
@@ -52,8 +61,9 @@ class ProgressiveController extends BaseController {
     }
 
     /**
-    *	Render Manifest action - used to build manifest file.
-    */
+     * Renders manifest file
+     * @return void
+     */
     public function actionRenderManifest() {
         $oldPath = craft()->templates->getTemplatesPath();
         $newPath = craft()->path->getPluginsPath().'progressive/templates';
@@ -65,8 +75,9 @@ class ProgressiveController extends BaseController {
 
 
     /**
-    *   Render Service Worker action - used to build service worker javascript file.
-    */
+     * Renders service worker
+     * @return void
+     */
     public function actionRenderServiceWorker() {
         $settings = craft()->progressive->getSettings();
 

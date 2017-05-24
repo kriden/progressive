@@ -13,12 +13,21 @@ class ProgressiveService extends BaseApplicationComponent {
 		}
 	}
 
+	/**
+	 * Creates a new instance with provided attributes.
+	 * @param  array attributes
+	 * @return Progressive_SettingsModel
+	 */
 	public function create($attributes = array()) {
         $model = new Progressive_SettingsModel();
         $model->setAttributes($attributes);
         return $model;
 	}
 
+	/**
+	 * Returns the settings for the plugin
+	 * @return Progressive_SettingsModel
+	 */
 	public function getSettings() {
         $records = $this->settingsRecord->findAll(array('order'=>'t.id desc', 'limit' => '1'));
         
@@ -33,7 +42,6 @@ class ProgressiveService extends BaseApplicationComponent {
 
 	/**
 	* Saves settings
-	*
 	* @return bool
 	*/
 	public function saveSettings(Progressive_SettingsModel &$model) {
@@ -55,6 +63,10 @@ class ProgressiveService extends BaseApplicationComponent {
         }
 	}
 
+	/**
+	 * Returns json version of the manifest
+	 * @return String
+	 */
 	public function renderManifest() {
 		$settings = $this->getSettings();
 
