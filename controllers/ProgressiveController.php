@@ -15,7 +15,7 @@ class ProgressiveController extends BaseController {
     public function actionWelcome()
     {
         $this->renderTemplate('progressive/welcome', array());
-    } /* -- actionWelcome */
+    }
 
 
     /**
@@ -40,7 +40,7 @@ class ProgressiveController extends BaseController {
         $variables['assetsSourceExists'] = count($sources);
 
         $this->renderTemplate('progressive/settings', $variables);
-    } /* -- actionSettings */
+    }
 
     /**
      * Saves plugin settings
@@ -71,7 +71,7 @@ class ProgressiveController extends BaseController {
         craft()->templates->setTemplatesPath($newPath);
         $this->renderTemplate('manifest', array());
         craft()->templates->setTemplatesPath($oldPath);
-    } /* -- renderManifest */
+    }
 
 
     /**
@@ -86,13 +86,12 @@ class ProgressiveController extends BaseController {
 
         $vars = array(
             'cacheName' => str_replace(' ','-', strtolower($settings->short_name)),
-            'offlineCache' => json_encode(array_merge(split(",", $settings->cached_files), array("/", $settings->start_url)))
+            'offlineCache' => json_encode(array_merge(explode(",", $settings->cached_files), array("/", $settings->start_url)))
         );
 
         craft()->templates->setTemplatesPath($newPath);
         $this->renderTemplate('serviceworker', $vars);
         craft()->templates->setTemplatesPath($oldPath);
-    } /* -- renderManifest */
-
+    }
 
 }

@@ -105,7 +105,7 @@ class ProgressiveService extends BaseApplicationComponent {
 						)
 					);
 
-					 $icons[] = array(
+					$icons[] = array(
 						"src" => $image->getUrl(),
 						"size" => $image->getWidth()."x".$image->getHeight(),
 						"type" => "image/png",
