@@ -1,4 +1,5 @@
 {% header "Content-Type: text/plain" %}
+{% minify %}
 self.addEventListener('install', function(e) {
 	e.waitUntil(
 		caches.open('{{ cacheName }}').then(function(cache) {
@@ -15,3 +16,4 @@ self.addEventListener('fetch', function(event) {
 		})
 	);
 });
+{% endminify %}
